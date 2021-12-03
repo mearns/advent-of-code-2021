@@ -1,0 +1,14 @@
+{
+  "name": "advent-of-code.2021",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "download": "node src/download",
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
