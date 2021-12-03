@@ -1,4 +1,4 @@
-defmodule Puzzle do
+defmodule AdventOfCode2021.Puzzles.Day1.Part2 do
 
   defp parse_decimal!(string) do
     string |> Integer.parse(10) |> ensure_complete_parse(string)
@@ -38,5 +38,3 @@ defmodule Puzzle do
   end
 
 end
-
-Puzzle.main() |> IO.puts()

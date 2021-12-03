@@ -3,7 +3,7 @@ const { ensureInputExists } = require("./lib/get-input-file");
 
 async function main() {
   const [, , day] = process.argv;
-  await ensureInputExists(day);
+  console.log(await ensureInputExists(day));
 }
 
 enter(main);

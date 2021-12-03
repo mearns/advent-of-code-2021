@@ -16,9 +16,9 @@ async function ensureInputExists(day) {
   const inputPath = path.resolve(
     __dirname,
     "..",
-    "puzzles",
-    `day${day}`,
-    "input.txt"
+    "..",
+    "data",
+    `input-${day}.txt`
   );
   if (!(await fileExists(inputPath))) {
     await downloadInputFile(inputPath, day);

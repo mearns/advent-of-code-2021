@@ -1,4 +1,4 @@
-defmodule Puzzle do
+defmodule AdventOfCode2021.Puzzles.Day1.Part1 do
 
   defp parseDecimal!(string) do
     { result, remainder } = string |> Integer.parse(10)
@@ -28,5 +28,3 @@ defmodule Puzzle do
   end
 
 end
-
-Puzzle.main() |> IO.puts()

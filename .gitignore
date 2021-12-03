@@ -1,5 +1,7 @@
 node_modules/
-src/lib/_session.js
+js/lib/_session.js
+data/
+advent_of_code_2021
 
 # The directory Mix will write compiled artifacts to.
 /_build/
