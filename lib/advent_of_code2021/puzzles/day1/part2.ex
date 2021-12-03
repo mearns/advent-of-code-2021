@@ -1,13 +1,6 @@
 defmodule AdventOfCode2021.Puzzles.Day1.Part2 do
 
-  defp parse_decimal!(string) do
-    string |> Integer.parse(10) |> ensure_complete_parse(string)
-  end
-
-  defp ensure_complete_parse({ result, "" }, _string), do: result
-  defp ensure_complete_parse({ _, _ }, string) do
-      raise(RuntimeError, message: "Invalid decimal value: #{string}")
-  end
+  alias AdventOfCode2021.Util
 
   defp init() do
     %{ window: [], increase_count: nil }
@@ -32,7 +25,7 @@ defmodule AdventOfCode2021.Puzzles.Day1.Part2 do
   def main() do
     %{ increase_count: increase_count } = IO.stream()
     |> Enum.map(&String.trim_trailing/1)
-    |> Enum.map(&parse_decimal!/1)
+    |> Enum.map(&Util.Parse.parse_decimal!/1)
     |> Enum.reduce(init(), &apply_depth_reading/2)
     increase_count
   end

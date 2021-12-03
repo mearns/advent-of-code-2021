@@ -1,6 +1,8 @@
-defmodule Puzzle do
-
+defmodule AdventOfCode2021.Puzzles.Day3.Part1 do
   use Bitwise
+
+  alias AdventOfCode2021.Util
+
 
   defp init_bit_count(), do: { 0, 0 }
   defp init_bit_count(bit), do: init_bit_count() |> count_bit(bit)
@@ -73,5 +75,3 @@ defmodule Puzzle do
   end
 
 end
-
-Puzzle.main() |> IO.puts()
