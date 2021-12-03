@@ -1,8 +1,6 @@
 defmodule AdventOfCode2021.Puzzles.Day3.Part1 do
-  use Bitwise
 
   alias AdventOfCode2021.Util
-
 
   defp init_bit_count(), do: { 0, 0 }
   defp init_bit_count(bit), do: init_bit_count() |> count_bit(bit)
@@ -33,7 +31,6 @@ defmodule AdventOfCode2021.Puzzles.Day3.Part1 do
   defp most_common_bits([ { _zeroes, _ones } | other_bit_counts ]),
     do: [0 | most_common_bits(other_bit_counts)]
 
-
   defp least_common_bits([ ]), do: []
 
   defp least_common_bits([ { zeroes, ones } | other_bit_counts ])
@@ -43,22 +40,17 @@ defmodule AdventOfCode2021.Puzzles.Day3.Part1 do
   defp least_common_bits([ { _zeroes, _ones } | other_bit_counts ]),
     do: [0 | least_common_bits(other_bit_counts)]
 
-  defp binary_to_decimal(bits), do: left_shift_in(0, bits)
-
-  defp left_shift_in(value, [ 0 ]), do: value <<< 1
-  defp left_shift_in(value, [ 1 ]), do: (value <<< 1) ||| 1
-  defp left_shift_in(value, [ bit | other_bits ]), do: value |> left_shift_in([ bit ]) |> left_shift_in(other_bits)
 
   defp calculate_γ(bit_counts) do
     bit_counts
     |> most_common_bits()
-    |> binary_to_decimal()
+    |> Util.BinaryNumbers.binary_to_decimal()
   end
 
   defp calculate_ε(bit_counts) do
     bit_counts
     |> least_common_bits()
-    |> binary_to_decimal()
+    |> Util.BinaryNumbers.binary_to_decimal()
   end
 
   defp calculate_power_consumption(%{ γ: γ, ε: ε }), do: γ * ε
