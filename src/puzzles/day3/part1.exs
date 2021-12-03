@@ -63,8 +63,8 @@ defmodule Puzzle do
 
   def main() do
     IO.stream()
-    |> Enum.map(&String.trim_trailing/1)
-    |> Enum.map(&String.graphemes/1)
+    |> Stream.map(&String.trim_trailing/1)
+    |> Stream.map(&String.graphemes/1)
     |> Enum.reduce(init(), &apply_row/2)
     |> (fn (bit_counts) ->
       %{ γ: calculate_γ(bit_counts), ε: calculate_ε(bit_counts) }
