@@ -29,6 +29,26 @@ defmodule AdventOfCode2021.Puzzles.Day5.LineTest do
     } == map
   end
 
+  test "add diagonal line to map, up to the right" do
+    map = Line.init("3,5 -> 5,7") |> Line.add_line_to_map(%{})
+    assert %{"3x5" => 1, "4x6" => 1, "5x7" => 1} == map
+  end
+
+  test "add diagonal line to map, down to the right" do
+    map = Line.init("3,5 -> 5,3") |> Line.add_line_to_map(%{})
+    assert %{"3x5" => 1, "4x4" => 1, "5x3" => 1} == map
+  end
+
+  test "add diagonal line to map, down to the left" do
+    map = Line.init("6,5 -> 4,3") |> Line.add_line_to_map(%{})
+    assert %{"6x5" => 1, "5x4" => 1, "4x3" => 1} == map
+  end
+
+  test "add diagonal line to map, up to the left" do
+    map = Line.init("6,5 -> 4,7") |> Line.add_line_to_map(%{})
+    assert %{"6x5" => 1, "5x6" => 1, "4x7" => 1} == map
+  end
+
   test "horiztonal lines" do
     line1 = Line.init("0,9 -> 5,9")
 
