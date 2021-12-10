@@ -14,7 +14,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.Helpers do
     |> load_lines()
   end
 
-  def get_risk_level({ height, _linenum }), do: height + 1
+  def get_risk_level({ height, _linenum, _column }), do: height + 1
 
   def apply_line(first_line, { }), do: { { first_line } }
 
@@ -32,7 +32,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.Helpers do
 
   defp find_low_points_for_lines(existing_low_points, lines, linenum) do
       {
-        existing_low_points |> find_more_low_points(lines, linenum, :first_column),
+        existing_low_points |> find_more_low_points(lines, linenum, 0),
         lines,
         linenum + 1
       }
@@ -43,81 +43,81 @@ defmodule AdventOfCode2021.Puzzles.Day9.Helpers do
     [ pos_integer ],
     ( { [ pos_integer ], [ pos_integer ]} | { [ pos_integer ] , [ pos_integer ], [ pos_integer ] } ),
     pos_integer,
-    ( :first_column | :not_first_column )
+    pos_integer
   ) :: [ pos_integer ]
 
 
   # First column, first line.
-  defp find_more_low_points(existing_low_points = [], { [ f1, f2 | ft ], [ s1, s2 | st ] }, linenum, :first_column) do
+  defp find_more_low_points(existing_low_points = [], { [ f1, f2 | ft ], [ s1, s2 | st ] }, linenum, column = 0) do
     existing_low_points
-    |> add_if_low_point(linenum, f1, [ f2, s1 ])
-    |> find_more_low_points({ [ f1, f2 | ft ], [ s1, s2 | st ] }, linenum, :not_first_column)
+    |> add_if_low_point(linenum, column, f1, [ f2, s1 ])
+    |> find_more_low_points({ [ f1, f2 | ft ], [ s1, s2 | st ] }, linenum, column + 1)
   end
 
   # First column, middle lines
-  defp find_more_low_points(existing_low_points, { [ f1, f2 | ft ], [ s1, s2 | st ], [ t1, t2 | tt ] }, linenum, :first_column) do
+  defp find_more_low_points(existing_low_points, { [ f1, f2 | ft ], [ s1, s2 | st ], [ t1, t2 | tt ] }, linenum, column = 0) do
     existing_low_points
-    |> add_if_low_point(linenum, s1, [ f1, s2, t1 ])
-    |> find_more_low_points({ [ f2 | ft ], [ s2 | st ], [ t2 | tt ] }, linenum, :not_first_column )
+    |> add_if_low_point(linenum, column, s1, [ f1, s2, t1 ])
+    |> find_more_low_points({ [ f2 | ft ], [ s2 | st ], [ t2 | tt ] }, linenum, column + 1 )
   end
 
   # Middle columns, first line
-  defp find_more_low_points(existing_low_points, { [ f1, f2, f3 | ft ], [ _s1, s2, s3 | st ] }, linenum, :not_first_column) do
+  defp find_more_low_points(existing_low_points, { [ f1, f2, f3 | ft ], [ _s1, s2, s3 | st ] }, linenum, column) do
     existing_low_points
-    |> add_if_low_point(linenum, f2, [ f1, f3, s2 ])
-    |> find_more_low_points({ [ f2, f3 | ft ], [ s2, s3 | st ] }, linenum, :not_first_column)
+    |> add_if_low_point(linenum, column, f2, [ f1, f3, s2 ])
+    |> find_more_low_points({ [ f2, f3 | ft ], [ s2, s3 | st ] }, linenum, column + 1)
   end
 
   # Middle columns, middle lines
-  defp find_more_low_points(existing_low_points, { [ _f1, f2, f3 | ft ], [ s1, s2, s3 | st ], [ _t1, t2, t3 | tt ] }, linenum, :not_first_column) do
+  defp find_more_low_points(existing_low_points, { [ _f1, f2, f3 | ft ], [ s1, s2, s3 | st ], [ _t1, t2, t3 | tt ] }, linenum, column) do
     existing_low_points
-    |> add_if_low_point(linenum, s2, [ f2, s1, s3, t2 ])
-    |> find_more_low_points({ [ f2, f3 | ft ], [ s2, s3 | st ], [ t2, t3 | tt ] }, linenum, :not_first_column)
+    |> add_if_low_point(linenum, column, s2, [ f2, s1, s3, t2 ])
+    |> find_more_low_points({ [ f2, f3 | ft ], [ s2, s3 | st ], [ t2, t3 | tt ] }, linenum, column + 1)
   end
 
   # Last column, first line
-  defp find_more_low_points(existing_low_points, { [ f1, f2 ], [ _s1, s2 ] }, linenum, :not_first_column) do
+  defp find_more_low_points(existing_low_points, { [ f1, f2 ], [ _s1, s2 ] }, linenum, column) do
     existing_low_points
-    |> add_if_low_point(linenum, f2, [ f1, s2 ])
+    |> add_if_low_point(linenum, column, f2, [ f1, s2 ])
   end
 
   # Last column, middle lines
-  defp find_more_low_points(existing_low_points, { [ _f1, f2 ], [ s1, s2 ], [ _t1, t2 ] }, linenum, :not_first_column) do
+  defp find_more_low_points(existing_low_points, { [ _f1, f2 ], [ s1, s2 ], [ _t1, t2 ] }, linenum, column) do
     existing_low_points
-    |> add_if_low_point(linenum, s2, [ f2, s1, t2 ])
+    |> add_if_low_point(linenum, column, s2, [ f2, s1, t2 ])
   end
 
   # We've always processed the previously added line when we add a new one. So when we get to the end,
   # we've never processed the last line. We do that now.
   defp process_last_line({ existing_low_points, { _first, second, third }, linenum}) do
-    existing_low_points |> find_more_low_points_in_last_line({ second, third }, linenum, :first_column)
+    existing_low_points |> find_more_low_points_in_last_line({ second, third }, linenum, 0)
   end
 
   # First column, last line
-  defp find_more_low_points_in_last_line(existing_low_points, { [ f1, f2 | ft ], [ s1, s2 | st ] }, linenum, :first_column) do
+  defp find_more_low_points_in_last_line(existing_low_points, { [ f1, f2 | ft ], [ s1, s2 | st ] }, linenum, column = 0) do
     existing_low_points
-    |> add_if_low_point(linenum, s1, [ f1, s2 ])
-    |> find_more_low_points_in_last_line({ [f2 | ft ], [ s2 | st ] }, linenum, :not_first_column)
+    |> add_if_low_point(linenum, column, s1, [ f1, s2 ])
+    |> find_more_low_points_in_last_line({ [f2 | ft ], [ s2 | st ] }, linenum, column + 1)
   end
 
   # Middle columns, last line
-  defp find_more_low_points_in_last_line(existing_low_points, { [ _f1, f2, f3 | ft ], [ s1, s2, s3 | st ] }, linenum, :not_first_column) do
+  defp find_more_low_points_in_last_line(existing_low_points, { [ _f1, f2, f3 | ft ], [ s1, s2, s3 | st ] }, linenum, column) do
     existing_low_points
-    |> add_if_low_point(linenum, s2, [ f2, s1, s3 ])
-    |> find_more_low_points_in_last_line({ [ f2, f3 | ft ], [ s2, s3 | st ] }, linenum, :not_first_column)
+    |> add_if_low_point(linenum, column, s2, [ f2, s1, s3 ])
+    |> find_more_low_points_in_last_line({ [ f2, f3 | ft ], [ s2, s3 | st ] }, linenum, column + 1)
   end
 
   # Last column, last line
-  defp find_more_low_points_in_last_line(existing_low_points, { [ _f1, f2 ], [ s1, s2]  }, linenum, :not_first_column) do
+  defp find_more_low_points_in_last_line(existing_low_points, { [ _f1, f2 ], [ s1, s2]  }, linenum, column) do
     existing_low_points
-    |> add_if_low_point(linenum, s2, [ f2, s1 ])
+    |> add_if_low_point(linenum, column, s2, [ f2, s1 ])
   end
 
-  @spec add_if_low_point([ pos_integer ], pos_integer, pos_integer, [ pos_integer ]) :: [ pos_integer ]
+  @spec add_if_low_point([ pos_integer ], pos_integer, pos_integer, pos_integer, [ pos_integer ]) :: [ pos_integer ]
 
-  defp add_if_low_point(existing_low_points, linenum, pt, neighbors) do
+  defp add_if_low_point(existing_low_points, linenum, column, pt, neighbors) do
     cond do
-      is_low_point(pt, neighbors) -> [ { pt, linenum } | existing_low_points ]
+      is_low_point(pt, neighbors) -> [ { pt, linenum, column } | existing_low_points ]
       true -> existing_low_points
     end
   end
