@@ -8,4 +8,4 @@ shift
 mix escript.build
 npm run -s download "${DAY}"
 echo "-------------"
-./advent_of_code_2021 $DAY $PART < "data/input-${DAY}.txt"
+./advent_of_code_2021 $DAY $PART "$@" < "data/input-${DAY}.txt"
