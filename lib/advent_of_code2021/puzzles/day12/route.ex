@@ -10,6 +10,10 @@ defmodule AdventOfCode2021.Puzzles.Day12.Route do
 
   def init(), do: %Route{}
 
+  def nodes_visited(%Route{ visit_counts: visit_counts }), do: visit_counts |> Map.keys()
+
+  def visit_count(%Route{ visit_counts: visit_counts }, node), do: visit_counts |> Map.get(node, 0)
+
   def fork(route = %Route{}, next_node) do
       %Route{
         rev_path: [next_node | route.rev_path ] ,
@@ -17,8 +21,8 @@ defmodule AdventOfCode2021.Puzzles.Day12.Route do
       }
   end
 
-  def visited?(%Route{ visit_counts: visit_counts }, node) do
-    visit_counts |> Map.get(node, 0) > 0
+  def visited?(route = %Route{ }, node) do
+    (route |> visit_count(node)) > 0
   end
 
   def as_string(%Route{ rev_path: rev_path }), do: rev_path_to_string(rev_path)
