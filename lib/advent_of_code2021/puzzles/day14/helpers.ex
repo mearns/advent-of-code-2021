@@ -7,6 +7,12 @@ defmodule AdventOfCode2021.Puzzles.Day14.Helpers do
     |> then(fn ({{ min, _minkey }, { max, _maxkey }}) -> max - min end )
   end
 
+  def score_frequency_map(freq_map) do
+    freq_map
+    |> get_most_and_least_common()
+    |> then(fn ({{ min, _minkey }, { max, _maxkey }}) -> max - min end )
+  end
+
   defp get_most_and_least_common(map) do
     map
     |> Enum.reduce({ { nil, nil }, { nil, nil } }, fn ({ key, count }, { { min, minkey }, { max, maxkey } }) ->
