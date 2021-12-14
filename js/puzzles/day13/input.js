@@ -22,7 +22,9 @@ module.exports = async function getInput(useSample, inputStream) {
 
 fold along y=7
 fold along x=5`;
-  return parseLines(await getInputLines(useSample, inputStream, testText));
+  return parseLines(
+    await getInputLines(useSample, inputStream, testText, true)
+  );
 };
 
 function parseLines(lines) {

@@ -1,6 +1,6 @@
 const readline = require("readline");
 
-async function getInputLines(useTest, inputStream, testText) {
+async function getInputLines(useTest, inputStream, testText, keepAll = false) {
   if (useTest) {
     return testText.split(/\n/);
   } else {
@@ -10,7 +10,7 @@ async function getInputLines(useTest, inputStream, testText) {
     const inputLines = [];
     for await (const line of rl) {
       const trimmed = line.trim();
-      if (trimmed) {
+      if (keepAll || trimmed) {
         inputLines.push(trimmed);
       }
     }
