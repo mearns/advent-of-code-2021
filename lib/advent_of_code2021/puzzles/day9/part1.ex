@@ -10,7 +10,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.Part1 do
     load_lines_of_text(:real)
     |> Helpers.load_from_text()
     |> Enum.map(fn { height, linenum, column } ->
-      { height, linenum + 1, BinaryNumbers.to_alphabetical(column) }
+      { height, linenum + 1, column }
     end)
     |> Debug.tee()
     |> Enum.map(&Helpers.get_risk_level/1)

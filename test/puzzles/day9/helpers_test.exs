@@ -12,6 +12,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "33333",
       "33333"
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1]
   end
@@ -24,6 +25,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "33333",
       "33333"
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1]
   end
@@ -36,6 +38,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "33333",
       "33331"
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1]
   end
@@ -48,6 +51,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "33333",
       "13333"
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1]
   end
@@ -60,6 +64,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "33333",
       "33333"
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1]
   end
@@ -72,8 +77,21 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "33333",
       "33333"
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1]
+  end
+
+  test "low point in middle-second column" do
+    res = [
+      "33333",
+      "33333",
+      "31333",
+      "33333",
+      "33333"
+    ] |> Helpers.load_from_text()
+
+    assert res == [ { 1, 2, 1 }]
   end
 
   test "low point in middle-center" do
@@ -84,6 +102,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "33333",
       "33333"
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1]
   end
@@ -96,6 +115,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "33333",
       "33333"
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1]
   end
@@ -108,8 +128,21 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "33333",
       "33133"
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1]
+  end
+
+  test "low point in bottom-second column" do
+    res = [
+      "33333",
+      "33333",
+      "33333",
+      "34333",
+      "43433"
+    ] |> Helpers.load_from_text()
+
+    assert res == [ { 3, 4, 1 }]
   end
 
   test "low point in four corners" do
@@ -120,6 +153,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "99999",
       "49991"
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1, 4, 2, 3]
   end
@@ -132,6 +166,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "49991",
       "99999",
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [1, 4, 2, 3]
   end
@@ -143,8 +178,26 @@ defmodule AdventOfCode2021.Puzzles.Day9.HelpersTest do
       "78936987",
       "99987898",
     ] |> Helpers.load_from_text()
+    |> Enum.map(fn { height, _line, _col } -> height end)
 
     assert res == [7, 7, 0]
   end
+
+  test "line and column numbers" do
+    res = [
+      "92101349",
+      "89215498",
+      "78936987",
+      "99987598",
+    ] |> Helpers.load_from_text()
+
+    assert res == [
+      { 5, 3, 5 },
+      { 7, 2, 7 },
+      { 7, 2, 0 },
+      { 0, 0, 3 },
+    ]
+  end
+
 
 end

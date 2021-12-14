@@ -58,7 +58,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.Helpers do
   defp find_more_low_points(existing_low_points, { [ f1, f2 | ft ], [ s1, s2 | st ], [ t1, t2 | tt ] }, linenum, column = 0) do
     existing_low_points
     |> add_if_low_point(linenum, column, s1, [ f1, s2, t1 ])
-    |> find_more_low_points({ [ f2 | ft ], [ s2 | st ], [ t2 | tt ] }, linenum, column + 1 )
+    |> find_more_low_points({ [ f1, f2 | ft ], [ s1, s2 | st ], [ t1, t2 | tt ] }, linenum, column + 1 )
   end
 
   # Middle columns, first line
@@ -97,7 +97,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.Helpers do
   defp find_more_low_points_in_last_line(existing_low_points, { [ f1, f2 | ft ], [ s1, s2 | st ] }, linenum, column = 0) do
     existing_low_points
     |> add_if_low_point(linenum, column, s1, [ f1, s2 ])
-    |> find_more_low_points_in_last_line({ [f2 | ft ], [ s2 | st ] }, linenum, column + 1)
+    |> find_more_low_points_in_last_line({ [f1, f2 | ft ], [ s1, s2 | st ] }, linenum, column + 1)
   end
 
   # Middle columns, last line
@@ -123,6 +123,7 @@ defmodule AdventOfCode2021.Puzzles.Day9.Helpers do
   end
 
 
+  # defp is_low_point(_, _), do: true
   defp is_low_point(pt, [ n | [] ]), do: pt < n
   defp is_low_point(pt, [ n1 | nt ]) when pt < n1, do: is_low_point(pt, nt)
   defp is_low_point(pt, [ n1 | _nt ]) when pt >= n1, do: false
