@@ -51,6 +51,18 @@ class Grid {
     this.grid[j][i] = value;
   }
 
+  map(mapper) {
+    const output = new Array(this.width() * this.height());
+    let idx = 0;
+    for (let j = 0; j < this.grid.length; j++) {
+      const row = this.grid[j];
+      for (let i = 0; i < row.length; i++) {
+        output[idx++] = mapper(this.grid[j][i], [i, j], this);
+      }
+    }
+    return output;
+  }
+
   update([i, j], updater) {
     this.grid[j][i] = updater(this.grid[j][i], [i, j], this);
   }

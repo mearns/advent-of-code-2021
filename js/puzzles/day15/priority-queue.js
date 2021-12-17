@@ -1,18 +1,46 @@
 class PQueue {
-  constructor() {
+  constructor(highToLow = []) {
     this.pCheapest = null;
     this.nodeMap = new Map();
     this.size = 0;
+
+    for (const [key, cost] of highToLow) {
+      const node = {
+        next: this.pCheapest,
+        prev: null,
+        cost,
+        key,
+      };
+      this.size++;
+      this.nodeMap.set(key, node);
+      if (this.pCheapest) {
+        this.pCheapest.prev = node;
+      }
+      this.pCheapest = node;
+    }
+  }
+
+  inspect() {
+    return [this.pCheapest, this.pCheapest.next, this.pCheapest.next.next];
   }
 
   popCheapest() {
     const cheapest = this.pCheapest;
     this.nodeMap.delete(cheapest.key);
     this.pCheapest = cheapest.next;
-    this.pCheapest.prev = null;
+    if (this.pCheapest) {
+      this.pCheapest.prev = null;
+    }
+    this.size--;
+    return cheapest.key;
   }
 
   costDecreased(key, newCost) {
+    if (key === this.pCheapest.key) {
+      this.pCheapest.cost = newCost;
+      return;
+    }
+
     const node = this.nodeMap.get(key);
     if (node.cost === newCost) {
       return;
@@ -21,7 +49,9 @@ class PQueue {
     const next = node.next;
     const prev = node.prev;
     // Pop the node out right now
-    next.prev = prev;
+    if (next) {
+      next.prev = prev;
+    }
     prev.next = next;
 
     // Now go backward till we find a node that's lower than the new cost, that can be the previous.
@@ -32,10 +62,13 @@ class PQueue {
         const cprev = curr.prev;
         curr.next = node;
         node.next = cnext;
-        cnext.prev = node;
+        if (cnext) {
+          cnext.prev = node;
+        }
         node.prev = curr;
         return;
       }
+      curr = curr.prev;
     }
 
     // The first node is more costly than the new node.
@@ -76,3 +109,5 @@ class PQueue {
     }
   }
 }
+
+module.exports = PQueue;
