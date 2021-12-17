@@ -1,3 +1,10 @@
+const FOUR_NEIGHBORS_OFFSETS = [
+  [0, -1],
+  [-1, 0],
+  [1, 0],
+  [0, 1],
+];
+
 const EIGHT_NEIGHBORS_OFFSETS = [
   [-1, -1],
   [0, -1],
@@ -10,8 +17,20 @@ const EIGHT_NEIGHBORS_OFFSETS = [
 ];
 
 class Grid {
+  /**
+   * @param grid Is an array of arrays. Outer array contains the rows. So for column X row Y,
+   * you access it as grid[Y][X].
+   */
   constructor(grid) {
     this.grid = grid;
+  }
+
+  height() {
+    return this.grid.length;
+  }
+
+  width() {
+    return this.grid.reduce((width, row) => Math.max(width, row.length), 0);
   }
 
   size() {
@@ -45,6 +64,17 @@ class Grid {
     }
   }
 
+  getFourNeighborAddresses([i, j]) {
+    return FOUR_NEIGHBORS_OFFSETS.map(([dx, dy]) => [i + dx, j + dy]).filter(
+      ([i, j]) => this.inBounds([i, j])
+    );
+  }
+
+  updateFourNeighbors([i, j], updater) {
+    this.getFourNeighborAddresses([i, j]).forEach((address) =>
+      this.update(address, updater)
+    );
+  }
   getEightNeighborAddresses([i, j]) {
     return EIGHT_NEIGHBORS_OFFSETS.map(([dx, dy]) => [i + dx, j + dy]).filter(
       ([i, j]) => this.inBounds([i, j])
@@ -57,6 +87,12 @@ class Grid {
     );
   }
 }
+
+Grid.loadFromDecimalDigits = (lines) => {
+  return new Grid(
+    lines.map((line) => line.split("").map((c) => parseInt(c, 10)))
+  );
+};
 
 module.exports = {
   Grid,
