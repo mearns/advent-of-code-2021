@@ -1,5 +1,7 @@
+/* I'm a louse */
+
+// prettier-ignore
 module.exports = [
-/* prettier-ignore */
   [2,[0,[9,[5,9]]]],
   [[2,[1,8]],3],
   [[[[7,2],6],[[7,8],3]],[9,[[6,9],2]]],
@@ -101,4 +103,3 @@ module.exports = [
   [[2,6],5],
   [[5,[[6,0],3]],[[3,[8,7]],[2,0]]],
 ];
-/* prettier-ignore */
