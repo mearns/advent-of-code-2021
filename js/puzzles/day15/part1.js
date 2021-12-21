@@ -1,4 +1,3 @@
-const enter = require("../../lib/enter");
 const { getInput } = require("./input");
 const { findCostOfShortestPath } = require("./shortest-path");
 

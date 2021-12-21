@@ -8,7 +8,14 @@ async function main() {
   const puzzle = await getPuzzle(day, part);
   try {
     inputStream = await getInputStream(day);
-    console.log(await puzzle(inputStream, ...args));
+    const sample = args.includes("--sample");
+    console.log(
+      await puzzle(
+        inputStream,
+        sample,
+        ...args.filter((str) => str !== "--sample")
+      )
+    );
   } finally {
     await closeInputStream(inputStream);
   }
