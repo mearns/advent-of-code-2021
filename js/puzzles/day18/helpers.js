@@ -34,6 +34,14 @@ class TreeNode {
     this.side = side;
   }
 
+  magnitude() {
+    const leftMag =
+      typeof this.left === "number" ? this.left : this.left.magnitude();
+    const rightMag =
+      typeof this.right === "number" ? this.right : this.right.magnitude();
+    return 3 * leftMag + 2 * rightMag;
+  }
+
   attachAsLeft(parent) {
     return this._attachTo(side(LEFT), parent);
   }
@@ -75,7 +83,6 @@ class TreeNode {
     }
     while (true) {
       const changed = this.reduce();
-      console.log("Reduced", changed, String(this));
       if (!changed) {
         return this;
       }

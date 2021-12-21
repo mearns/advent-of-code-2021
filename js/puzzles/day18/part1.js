@@ -6,5 +6,5 @@ module.exports = async function main(inputStream, sample) {
     parse(line)
   );
   const sum = lines.reduce((sum, line) => add(sum, line).reduceCompletely());
-  return sum;
+  return sum.magnitude();
 };
